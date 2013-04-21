@@ -8,7 +8,7 @@ class Env {
 		this.tail = tail;
 	}
 
-	public Retrieve (id: Symbol, env: Env, list: TypeList): TypeExp {
+	static Retrieve (id: Symbol, env: Env, list: TypeList): TypeExp {
 		if (env === null) {
 			console.log('Unbound id');
 			return null;

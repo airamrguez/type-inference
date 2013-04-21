@@ -4,7 +4,7 @@ class GenericVar {
 		return !Type.OccursInTypeList(typeVar, list);
 	}
 
-	private FreshVar(typeVar: TypeExp, scan: CopyEnv, env : CopyEnv): TypeExp {
+	static FreshVar(typeVar: TypeExp, scan: CopyEnv, env : CopyEnv): TypeExp {
 		var newTypeVar : TypeExp;
 		if (scan === null) {
 			newTypeVar = new VarType();
@@ -13,7 +13,7 @@ class GenericVar {
 		} else if (Type.SameType(typeVar, scan.old)) {
 			return scan.new;
 		}
-		return this.FreshVar(typeVar, scan.tail, env);
+		return GenericVar.FreshVar(typeVar, scan.tail, env);
 	}
 
 	public Fresh(typeExp: TypeExp, list: TypeList, env:CopyEnv) : TypeExp {

@@ -9,7 +9,7 @@ export class Type {
 		if (typeExp instanceof VarType) {
 			var tExp = <VarType> typeExp;
 			if (tExp.instance === null) {
-				return typeExp;
+				return tExp;
 			} else {
 				tExp.instance = Type.Prune(tExp.instance);
 				return tExp.instance;
@@ -20,7 +20,7 @@ export class Type {
 	}
 
 	static OccursInTypeList(typeVar: TypeExp, list: TypeList) : bool {
-		if (_.isEmpty(list)) return false;
+		if (list == null) return false;
 		if (this.OccursInType(typeVar, list.head)) return true;
 		return this.OccursInTypeList(typeVar, list.tail);
 	}
@@ -34,7 +34,7 @@ export class Type {
 		}
 	}
 
-	private UnifyType (typeExp1, typeExp2: TypeExp) : void {
+	static UnifyType (typeExp1, typeExp2: TypeExp) : void {
 		typeExp1 = Type.Prune(typeExp1);
 		typeExp2 = Type.Prune(typeExp2);
 		if (typeExp1 instanceof VarType) {
@@ -48,7 +48,7 @@ export class Type {
 		} else if (typeExp1 instanceof OperType) {
 			var oType1 = <OperType> typeExp1;
 			if (typeExp2 instanceof VarType) {
-				this.UnifyType(typeExp2, typeExp1);
+				Type.UnifyType(typeExp2, typeExp1);
 			} else if (typeExp2 instanceof OperType) {
 				var oType2 = <OperType> typeExp2;
 				if (oType1.id.Equals(oType2.id)) {
@@ -65,8 +65,8 @@ export class Type {
 		if (list1 === null || list2 === null) {
 			console.log("Type clash");
 		} else {
-			UnifyType(list1.head, list2.head);
-			UnifyArgs(_list1.head, list2.tail);
+			Type.UnifyType(list1.head, list2.head);
+			UnifyArgs(list1.head, list2.tail);
 		}
 	}
 }
